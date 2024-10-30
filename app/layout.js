@@ -1,5 +1,6 @@
 import { Fugaz_One, Inter, Lato, Montserrat } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400"] });
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
@@ -13,9 +14,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   const header = (
     <div className="p-4 sm:p-8 items-center justify-between flex gap-4">
-      <h1 className={" text-base textGradient sm:text-lg " + fugaz.className}>
-        <b>Brief</b>
-      </h1>
+      <Link href="/">
+        <h1 className={" text-base textGradient sm:text-lg " + fugaz.className}>
+          <b>Brief</b>
+        </h1>
+      </Link>
     </div>
   );
 
