@@ -5,10 +5,12 @@ const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 
 export default function Button(props) {
-  const { text, fill, full } = props;
+  const { text, fill, full, clickHandler } = props;
+
 
   return (
     <button
+      onClick={clickHandler}
       className={
         " rounded-full overflow-hidden border-2 border-solid border-sky-800 duration-200 hover:opacity-60 " +
         (fill ? " text-white bg-sky-800" : "text-sky-800 ") +
