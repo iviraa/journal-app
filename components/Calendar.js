@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { gradients } from "@/utils/gradients";
 import { baseRating } from "@/utils/data";
 import { Fugaz_One } from "next/font/google";
+import Link from "next/link";
 
 const months = {
   January: "Jan",
@@ -38,6 +39,7 @@ export default function Calendar({ completeData, demo }) {
 
   const now = new Date();
   const currMonth = now.getMonth();
+  const currDay = now.getDate();
   const [selectedMonth, setSelectedMonth] = useState(
     Object.keys(months)[currMonth]
   );
@@ -50,7 +52,7 @@ export default function Calendar({ completeData, demo }) {
 
   const data = completeData?.[selectedYear]?.[numericMonth] || {};
 
-  console.log("month data", completeData?.[selectedYear]?.[numericMonth]);
+  console.log(" data", data);
 
   function handleIncrementMonth(val) {
     if (numericMonth + val < 0) {
@@ -120,23 +122,25 @@ export default function Calendar({ completeData, demo }) {
                 let color = demo
                   ? gradients.blue[baseRating[dayIndex]]
                   : dayIndex in data
-                  ? gradients.blue[data[dayIndex]]
+                  ? gradients.blue[data[dayIndex].value]
                   : "white";
 
                 return (
-                  <div
-                    style={{ background: color }}
-                    className={
-                      " text-xs sm:text-sm border border-solid p-4 flex items-center rounded-lg justify-between gap-2 " +
-                      (isToday
-                        ? "border-sky-700 border-2 "
-                        : "border-sky-400") +
-                      (color === "white" ? " text-sky-800" : " text-white ")
-                    }
-                    key={dayofWeekIndex}
-                  >
-                    <p>{dayIndex}</p>
-                  </div>
+                  //Main box
+                  <Link href={"/journal"}>
+                    <div
+                      style={{ background: color }}
+                      className={
+                        " text-xs sm:text-sm border border-solid p-4 flex items-center rounded-lg justify-between gap-2 " +
+                        (isToday
+                          ? "border-sky-700 border-2 "
+                          : "border-sky-400") +
+                        (color === "white" ? " text-sky-800" : " text-white ")
+                      }
+                    >
+                      <p>{dayIndex}</p>
+                    </div>
+                  </Link>
                 );
               })}
             </div>

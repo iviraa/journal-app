@@ -22,7 +22,7 @@ export default function Dashboard() {
     for (let year in data) {
       for (let month in data[year]) {
         for (let day in data[year][month]) {
-          let days_mood = data[year][month][day];
+          let days_mood = data[year][month][day].value;
 
           total_number_of_days++;
           sum_moods += days_mood;
@@ -31,8 +31,9 @@ export default function Dashboard() {
     }
     return {
       num_days: total_number_of_days,
-      average_mood:
-        total_number_of_days === 0 ? 0 : sum_moods / total_number_of_days,
+      average_mood: Math.round(
+        total_number_of_days === 0 ? 0 : sum_moods / total_number_of_days
+      ),
     };
   }
 
@@ -43,6 +44,7 @@ export default function Dashboard() {
 
   async function handleSetMood(mood) {
     const day = now.getDate();
+    console.log(day);
     const month = now.getMonth();
     const year = now.getFullYear();
 
@@ -55,7 +57,15 @@ export default function Dashboard() {
         newData[year][month] = {};
       }
 
-      newData[year][month][day] = mood;
+      newData[year][month][day] = {
+        value: mood,
+        journalTitle: newData[year][month][day]?.journalTitle || "",
+        journalEntry: newData[year][month][day]?.journalEntry || "",
+      };
+
+      const currentDayValue = newData[year][month][day];
+
+      console.log("currentDayValue", currentDayValue);
 
       setData(newData);
       console.log("the new value of", data);
@@ -68,7 +78,7 @@ export default function Dashboard() {
         {
           [year]: {
             [month]: {
-              [day]: mood,
+              [day]: currentDayValue,
             },
           },
         },
@@ -95,7 +105,6 @@ export default function Dashboard() {
     setData(userDataObj);
 
     console.log("the value of", data);
-
   }, [currentUser, userDataObj]);
 
   if (loading) {
