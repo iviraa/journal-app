@@ -48,7 +48,7 @@ export default function Login() {
         onChange={(e) => setEmail(e.target.value)}
       />
       <input
-        className=" w-full mx-auto max-w-[350px] px-2 py-1  rounded-full border-2 border-solid border-sky-600 duration-200 hover:border-sky-800 focus:border-sky-950 outline-none "
+        className=" w-full mx-auto max-w-[350px] px-4 py-2 sm:py-3  rounded-full border-2 border-solid border-sky-600 duration-200 hover:border-sky-800 focus:border-sky-950 outline-none "
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
