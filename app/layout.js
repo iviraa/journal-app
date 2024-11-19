@@ -49,7 +49,7 @@ export default function RootLayout({ children }) {
       <AuthProvider>
         <body
           className={
-            "w-full max-w-[600px] mx-auto text-sm sm:text-base min-h-screen flex flex-col text-slate-800 " +
+            "w-full max-w-[700px] mx-auto text-sm sm:text-base min-h-screen flex flex-col text-slate-800 " +
             lato.className
           }
         >

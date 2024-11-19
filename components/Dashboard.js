@@ -145,7 +145,7 @@ export default function Dashboard() {
         How do you
         <span className="textGradient "> feel</span> today?
       </h4>
-      <div className="flex items-stretch flex-wrap gap-4 justify-around ">
+      <div className="flex items-stretch flex-wrap gap-2 justify-around ">
         {Object.keys(moods).map((mood, moodIndex) => {
           return (
             <button
@@ -156,7 +156,7 @@ export default function Dashboard() {
               key={moodIndex}
               className=" p-4 rounded-2xl duration-200 blueShadow bg-sky-100 hover:bg-[#7ab2d3] items-center gap-2 "
             >
-              <p className=" text-4xl sm:text-5xl md:text-6xl">{moods[mood]}</p>
+              <p className=" text-3xl sm:text-4xl md:text-5xl">{moods[mood]}</p>
               <p className={" text-sky-800 " + fugaz.className}>{mood}</p>
             </button>
           );
