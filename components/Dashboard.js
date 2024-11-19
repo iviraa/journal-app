@@ -15,7 +15,6 @@ export default function Dashboard() {
   const [data, setData] = useState({});
   const now = new Date();
 
-
   function countValues() {
     let total_number_of_days = 0;
     let sum_moods = 0;
@@ -106,7 +105,7 @@ export default function Dashboard() {
     setData(userDataObj);
 
     console.log("the value of", data);
-  }, [currentUser, userDataObj]);
+  }, [currentUser, userDataObj, data]);
 
   if (loading) {
     return <Loading />;

@@ -40,7 +40,7 @@ export default function Login() {
       <h3 className={" text-3xl sm:text-4xl md:text-5xl " + fugaz.className}>
         {isRegister ? "Sign Up" : "Log In"}
       </h3>
-      <p className=" font-semibold">You're one step away!</p>
+      <p className=" font-semibold">You&apos;re one step away!</p>
       <input
         className=" w-full mx-auto max-w-[350px] px-4 py-2 sm:py-3  rounded-full border-2 border-solid border-sky-600 duration-200 hover:border-sky-800 focus:border-sky-950 outline-none"
         placeholder="Email"

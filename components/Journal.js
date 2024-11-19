@@ -113,7 +113,7 @@ export default function Journal() {
     console.log("journalEntryExists", journalEntryExists);
     console.log("titleExists", titleExists);
     console.log("moodExists", moodExists);
-  }, [userDataObj, thisDay]);
+  }, [userDataObj, thisDay, thisMonth, thisYear, journalEntryExists, titleExists, moodExists]);
 
   useEffect(() => {
     setData(userDataObj);
@@ -124,7 +124,7 @@ export default function Journal() {
     console.log("title", title);
     console.log("entry", entry);
     console.log("data", data);
-  }, [userDataObj, title, entry]);
+  }, [userDataObj, title, entry, data, currentUser]);
 
   if (loading) {
     return <Loading />;
