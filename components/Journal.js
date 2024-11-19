@@ -59,8 +59,8 @@ export default function Journal() {
 
       newData[year][month][day] = {
         value: newData[year][month][day]?.value || 0,
-        journalTitle: title,
-        journalEntry: entry,
+        journalTitle: title || "",
+        journalEntry: entry || "",
       };
 
       const currentDayValue = newData[year][month][day];
@@ -93,17 +93,28 @@ export default function Journal() {
   }
 
   useEffect(() => {
-    const day = thisDay;
+
+    if (currentUser && userDataObj) {
+      const day = thisDay;
     const month = thisMonth;
     const year = thisYear;
 
     const newData = { ...userDataObj };
+
+    newData[year][month][day] = {
+      value: newData[year][month][day]?.value || 0,
+      journalTitle: newData[year][month][day]?.journalTitle || "",
+      journalEntry: newData[year][month][day]?.journalEntry || "",
+    };
+
     console.log("userDataObj", userDataObj);
+
     console.log("button has been clicked", newData);
 
     console.log("newData", newData);
     console.log(thisDay, thisMonth, thisYear);
     const currentDayValue = newData[thisYear][thisMonth][thisDay];
+    console.log("currentDayValue", currentDayValue);
 
     setJournalEntryExists(currentDayValue?.journalEntry);
     setTitleExists(currentDayValue?.journalTitle);
@@ -113,7 +124,17 @@ export default function Journal() {
     console.log("journalEntryExists", journalEntryExists);
     console.log("titleExists", titleExists);
     console.log("moodExists", moodExists);
-  }, [userDataObj, thisDay, thisMonth, thisYear, journalEntryExists, titleExists, moodExists]);
+    }
+    
+  }, [
+    userDataObj,
+    thisDay,
+    thisMonth,
+    thisYear,
+    journalEntryExists,
+    titleExists,
+    moodExists,
+  ]);
 
   useEffect(() => {
     setData(userDataObj);

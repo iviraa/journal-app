@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function Logout() {
-  const { Logout, currentUser } = useAuth();
+  const { logout, currentUser } = useAuth();
   const pathname = usePathname();
 
   if (!currentUser) {
@@ -21,5 +21,5 @@ export default function Logout() {
     );
   }
 
-  return <Button text="Log Out" clickHandler={Logout} />;
+  return <Button text="Log Out" clickHandler={logout} />;
 }

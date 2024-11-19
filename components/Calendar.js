@@ -139,9 +139,8 @@ export default function Calendar({ completeData, demo }) {
 
                 return (
                   //Main box
-                  <Link href={"/journal"}>
+                  <Link href={"/journal"} key={dayofWeekIndex}>
                     <div
-                      key={dayIndex}
                       style={{ background: color }}
                       onClick={() => handleClick(dayIndex)}
                       className={
