@@ -157,7 +157,7 @@ export default function Journal() {
   }
 
   return (
-    <div className="  bg-gradient-to-b from-gray-50 to-gray-100 px-4 sm:px-6 lg:px-8">
+    <div className="   px-4 sm:px-6 lg:px-8">
       {journalEntryExists && titleExists ? (
         <div className="container mx-auto px-4 py-8 max-w-2xl">
           <Card className="shadow-lg shadow-sky-800 ">
@@ -189,7 +189,7 @@ export default function Journal() {
                   <HiOutlinePencilSquare className="h-8 w-8 text-sky-800 " />
                 </button>
               </div>
-              <div className="bg-muted p-4 rounded-lg">
+              <div className=" p-4 rounded-lg">
                 <p
                   className={
                     " text-lg text-center text-muted-foreground font-semibold " +
