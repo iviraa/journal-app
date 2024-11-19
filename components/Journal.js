@@ -8,6 +8,19 @@ import { db } from "@/firebase";
 import Loading from "./Loading";
 import Link from "next/link";
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import Button from "./Button";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
+import { FaRegCalendarAlt } from "react-icons/fa";
+
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 export default function Journal() {
@@ -93,39 +106,31 @@ export default function Journal() {
   }
 
   useEffect(() => {
-
     if (currentUser && userDataObj) {
       const day = thisDay;
-    const month = thisMonth;
-    const year = thisYear;
+      const month = thisMonth;
+      const year = thisYear;
 
-    const newData = { ...userDataObj };
+      const newData = { ...userDataObj };
 
-    newData[year][month][day] = {
-      value: newData[year][month][day]?.value || 0,
-      journalTitle: newData[year][month][day]?.journalTitle || "",
-      journalEntry: newData[year][month][day]?.journalEntry || "",
-    };
+      console.log("userDataObj", userDataObj);
 
-    console.log("userDataObj", userDataObj);
+      console.log("button has been clicked", newData);
 
-    console.log("button has been clicked", newData);
+      console.log("newData", newData);
+      console.log(thisDay, thisMonth, thisYear);
+      const currentDayValue = newData[thisYear][thisMonth][thisDay];
+      console.log("currentDayValue", currentDayValue);
 
-    console.log("newData", newData);
-    console.log(thisDay, thisMonth, thisYear);
-    const currentDayValue = newData[thisYear][thisMonth][thisDay];
-    console.log("currentDayValue", currentDayValue);
+      setJournalEntryExists(currentDayValue?.journalEntry);
+      setTitleExists(currentDayValue?.journalTitle);
+      setMoodExists(currentDayValue?.value);
 
-    setJournalEntryExists(currentDayValue?.journalEntry);
-    setTitleExists(currentDayValue?.journalTitle);
-    setMoodExists(currentDayValue?.value);
-
-    console.log("currentDayValue", currentDayValue);
-    console.log("journalEntryExists", journalEntryExists);
-    console.log("titleExists", titleExists);
-    console.log("moodExists", moodExists);
+      console.log("currentDayValue", currentDayValue);
+      console.log("journalEntryExists", journalEntryExists);
+      console.log("titleExists", titleExists);
+      console.log("moodExists", moodExists);
     }
-    
   }, [
     userDataObj,
     thisDay,
@@ -154,56 +159,69 @@ export default function Journal() {
   return (
     <div className="  bg-gradient-to-b from-gray-50 to-gray-100 px-4 sm:px-6 lg:px-8">
       {journalEntryExists && titleExists ? (
-        <div className=" mx-auto">
-          <h1
-            className={
-              "text-2xl font-bold text-center mb-8 pb-8 " + fugaz.className
-            }
-          >
-            <span className=" text-gray-600 ">
-              Your daily journal on {thisDay},{thisMonth},{thisYear}{" "}
-            </span>
-          </h1>
-          <div className=" flex flex-row justify-around p-4 rounded-2xl ">
-            <div className={" text-3xl  textGradient mb-1 " + fugaz.className}>
-              Title : {titleExists}
-            </div>
-            <div
-              className={
-                " text-3xl  flex flex-row justify-center m-1 " + fugaz.className
-              }
-            >
-              <p className=" textGradient ">
-                {" "}
-                {moodExists === 0 ? "" : "Mood"}
-              </p>{" "}
-              {moodExists === 0 ? "" : moods[moodExists - 1]}
-            </div>
-          </div>
-          <div className="p-4 flex mt-6 rounded-2xl bg-gray-100 border-4  border-sky-800 ">
-            <div className={" text-xl  mb-1 " + fugaz.className}>
-              {journalEntryExists}
-            </div>
-          </div>
-          <div className="flex w-full max-w-[350px] mx-auto m-6 items-center justify-center">
-            <Link href="/dashboard">
-              <button
+        <div className="container mx-auto px-4 py-8 max-w-2xl">
+          <Card className="shadow-lg shadow-sky-800 ">
+            <CardHeader className="text-center font-bold ">
+              <h1
                 className={
-                  " rounded-full overflow-hidden border-2 border-solid border-sky-800 duration-200 hover:opacity-60 " +
-                  " text-white bg-sky-800 "
+                  "text-4xl font-bold mb-2 textGradient " + fugaz.className
                 }
               >
+                {titleExists}
+              </h1>
+              <div className="flex text-xl items-center justify-center text-muted-foreground">
+                <FaRegCalendarAlt className="mr-2" />
+                <span>{`${thisDay} / ${thisMonth} / ${thisYear}`}</span>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4 ">
+              <div className="flex justify-between items-center">
+                <div className="flex flex-row ">
+                  <p
+                    className={" textGradient text-xl px-3 " + fugaz.className}
+                  >
+                    {" "}
+                    {moodExists === 0 ? "Mood : " : "Mood : "}{" "}
+                  </p>{" "}
+                  {moodExists === 0 ? "😭" : moods[moodExists - 1]}
+                </div>
+                <button>
+                  <HiOutlinePencilSquare className="h-8 w-8 text-sky-800 " />
+                </button>
+              </div>
+              <div className="bg-muted p-4 rounded-lg">
                 <p
                   className={
-                    " px-6 sm:px-10 whitespace-nowrap py-2 sm:py-3 " +
+                    " text-lg text-center text-muted-foreground font-semibold " +
                     fugaz.className
                   }
                 >
-                  Go to Dashboard
+                  {journalEntryExists}
                 </p>
-              </button>
-            </Link>
-          </div>
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-center">
+              <div className="flex w-full max-w-[350px] mx-auto m-2 items-center justify-center">
+                <Link href="/dashboard">
+                  <button
+                    className={
+                      " rounded-full overflow-hidden border-2 border-solid border-sky-800 duration-200 hover:opacity-60 " +
+                      " text-white bg-sky-800 "
+                    }
+                  >
+                    <p
+                      className={
+                        " px-4 sm:px-8 whitespace-nowrap py-2 " +
+                        fugaz.className
+                      }
+                    >
+                      Go to Dashboard
+                    </p>
+                  </button>
+                </Link>
+              </div>
+            </CardFooter>
+          </Card>
         </div>
       ) : (
         <div className="max-w-3xl mx-auto">
@@ -228,7 +246,10 @@ export default function Journal() {
               <input
                 type="text"
                 required
-                className="w-full px-3 py-2 border text-gray-600 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 focus:border-sky-700"
+                className={
+                  " w-full px-3 py-2 border text-gray-600 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-700 focus:border-sky-700 " +
+                  fugaz.className
+                }
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="What best describes your thoughts?"
@@ -245,7 +266,10 @@ export default function Journal() {
               </label>
               <textarea
                 required
-                className="w-full px-3 py-2 border text-gray-600 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                className={
+                  " w-full px-3 py-2 border text-gray-600 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 " +
+                  fugaz.className
+                }
                 rows={10}
                 value={entry}
                 onChange={(e) => setEntry(e.target.value)}

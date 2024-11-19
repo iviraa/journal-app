@@ -7,6 +7,7 @@ import Logout from "@/components/Logout";
 import { BsJournal } from "react-icons/bs";
 import diary from "../public/diary.png";
 import Image from "next/image";
+import { PiFlowerLotusBold } from "react-icons/pi";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400"] });
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
@@ -21,10 +22,15 @@ export default function RootLayout({ children }) {
   const header = (
     <div className="p-4 sm:p-8 items-center justify-between flex gap-4">
       <Link href="/">
-        <h1 className={" text-base textGradient sm:text-lg flex lfex-row items-center " + fugaz.className}>
+        <h1
+          className={
+            " text-base textGradient sm:text-lg flex lfex-row items-center " +
+            fugaz.className
+          }
+        >
           <b>Brief</b>
-      
-          <Image src={diary} alt="diary" width={20} height={20} className="ml-2" />
+
+          <PiFlowerLotusBold className="ml-2 text-2xl text-[#4a628a] " />
         </h1>
       </Link>
       <Logout />
