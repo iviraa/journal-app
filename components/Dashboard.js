@@ -15,6 +15,7 @@ export default function Dashboard() {
   const [data, setData] = useState({});
   const now = new Date();
 
+
   function countValues() {
     let total_number_of_days = 0;
     let sum_moods = 0;
@@ -90,11 +91,11 @@ export default function Dashboard() {
   }
 
   const moods = {
-    sad: "😔",
-    angry: "😤",
-    confused: "😭",
-    excited: "😁",
-    happy: "😍",
+    devastated: "😔",
+    sad: "😓",
+    meh: "🫤",
+    happy: "😁",
+    elated: "😍",
   };
 
   useEffect(() => {

@@ -11,9 +11,6 @@ import Link from "next/link";
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 export default function Journal() {
-
-
-  
   const [title, setTitle] = useState("");
   const [entry, setEntry] = useState("");
   const { currentUser, userDataObj, setUserDataObj, loading } = useAuth();
@@ -25,17 +22,29 @@ export default function Journal() {
 
   const now = new Date();
 
-  const thisDay = now.getDate();
-  const thisMonth = now.getMonth();
-  const thisYear = now.getFullYear();
+  const [thisDay, setThisDay] = useState(now.getDate());
+  const [thisMonth, setThisMonth] = useState(now.getMonth());
+  const [thisYear, setThisYear] = useState(now.getFullYear());
 
-  const moods = ["😔", "😤", "😭", "😁", "😍"];
+  const moods = ["😔", "😓", "🫤", "😁", "😍"];
+
+  useEffect(() => {
+    const selectedDayInfo = JSON.parse(localStorage.getItem("selectedDayInfo"));
+    console.log("selectedDayInfo", selectedDayInfo);
+
+    setThisDay(selectedDayInfo.day);
+    console.log("thisDay", thisDay);
+    setThisMonth(selectedDayInfo.month);
+    console.log("thisMonth", thisMonth);
+    setThisYear(selectedDayInfo.year);
+    console.log("thisYear", thisYear);
+  }, [thisDay, thisMonth, thisYear]);
 
   // Function to handle journal entry submission
   async function handleSetJournalEntry(title, entry) {
-    const day = now.getDate();
-    const month = now.getMonth();
-    const year = now.getFullYear();
+    const day = thisDay;
+    const month = thisMonth;
+    const year = thisYear;
 
     try {
       const newData = { ...userDataObj };
@@ -57,6 +66,9 @@ export default function Journal() {
       const currentDayValue = newData[year][month][day];
 
       console.log("currentDayValue", currentDayValue);
+      setJournalEntryExists(currentDayValue?.journalEntry);
+      setTitleExists(currentDayValue?.journalTitle);
+      setMoodExists(currentDayValue?.value);
 
       setData(newData);
       console.log("the new value of", data);
@@ -81,28 +93,17 @@ export default function Journal() {
   }
 
   useEffect(() => {
-    const day = now.getDate();
-    const month = now.getMonth();
-    const year = now.getFullYear();
+    const day = thisDay;
+    const month = thisMonth;
+    const year = thisYear;
 
     const newData = { ...userDataObj };
     console.log("userDataObj", userDataObj);
     console.log("button has been clicked", newData);
 
-    if (!newData?.[year]) {
-      newData[year] = {};
-    }
-    if (!newData?.[year]?.[month]) {
-      newData[year][month] = {};
-    }
-
-    newData[year][month][day] = {
-      value: newData[year][month][day]?.value || 0,
-      journalTitle: newData[year][month][day]?.journalTitle || "",
-      journalEntry: newData[year][month][day]?.journalEntry || "",
-    };
-
-    const currentDayValue = newData[year][month][day];
+    console.log("newData", newData);
+    console.log(thisDay, thisMonth, thisYear);
+    const currentDayValue = newData[thisYear][thisMonth][thisDay];
 
     setJournalEntryExists(currentDayValue?.journalEntry);
     setTitleExists(currentDayValue?.journalTitle);
@@ -112,7 +113,7 @@ export default function Journal() {
     console.log("journalEntryExists", journalEntryExists);
     console.log("titleExists", titleExists);
     console.log("moodExists", moodExists);
-  }, [userDataObj]);
+  }, [userDataObj, thisDay]);
 
   useEffect(() => {
     setData(userDataObj);
@@ -130,8 +131,8 @@ export default function Journal() {
   }
 
   return (
-    <div className=" h-[70vh] bg-gradient-to-b from-gray-50 to-gray-100 px-4 sm:px-6 lg:px-8">
-      {journalEntryExists && titleExists && moodExists ? (
+    <div className="  bg-gradient-to-b from-gray-50 to-gray-100 px-4 sm:px-6 lg:px-8">
+      {journalEntryExists && titleExists ? (
         <div className=" mx-auto">
           <h1
             className={
@@ -139,11 +140,11 @@ export default function Journal() {
             }
           >
             <span className=" text-gray-600 ">
-              Your daily journal on {thisDay}/{thisMonth}/{thisYear}{" "}
+              Your daily journal on {thisDay},{thisMonth},{thisYear}{" "}
             </span>
           </h1>
           <div className=" flex flex-row justify-around p-4 rounded-2xl ">
-            <div className={" text-3xl  text-sky-800 mb-1 " + fugaz.className}>
+            <div className={" text-3xl  textGradient mb-1 " + fugaz.className}>
               Title : {titleExists}
             </div>
             <div
@@ -151,33 +152,35 @@ export default function Journal() {
                 " text-3xl  flex flex-row justify-center m-1 " + fugaz.className
               }
             >
-              <p className=" text-sky-800 "> Mood :</p> {moods[moodExists]}
+              <p className=" textGradient ">
+                {" "}
+                {moodExists === 0 ? "" : "Mood"}
+              </p>{" "}
+              {moodExists === 0 ? "" : moods[moodExists - 1]}
             </div>
           </div>
-          <div className="p-4 flex mt-6 rounded-2xl bg-gray-100 border-4 min-h-[40vh] border-sky-800 ">
+          <div className="p-4 flex mt-6 rounded-2xl bg-gray-100 border-4  border-sky-800 ">
             <div className={" text-xl  mb-1 " + fugaz.className}>
               {journalEntryExists}
             </div>
           </div>
           <div className="flex w-full max-w-[350px] mx-auto m-6 items-center justify-center">
-            
             <Link href="/dashboard">
-            <button
-              
-              className={
-                " rounded-full overflow-hidden border-2 border-solid border-sky-800 duration-200 hover:opacity-60 " +
-                " text-white bg-sky-800 "
-              }
-            >
-              <p
+              <button
                 className={
-                  " px-6 sm:px-10 whitespace-nowrap py-2 sm:py-3 " +
-                  fugaz.className
+                  " rounded-full overflow-hidden border-2 border-solid border-sky-800 duration-200 hover:opacity-60 " +
+                  " text-white bg-sky-800 "
                 }
               >
-                Go to Dashboard
-              </p>
-            </button>
+                <p
+                  className={
+                    " px-6 sm:px-10 whitespace-nowrap py-2 sm:py-3 " +
+                    fugaz.className
+                  }
+                >
+                  Go to Dashboard
+                </p>
+              </button>
             </Link>
           </div>
         </div>

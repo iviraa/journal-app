@@ -34,6 +34,7 @@ const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 export default function Calendar({ completeData, demo }) {
   console.log(completeData);
+ 
 
   console.log("this is inside calendar prop", completeData);
 
@@ -43,6 +44,8 @@ export default function Calendar({ completeData, demo }) {
   const [selectedMonth, setSelectedMonth] = useState(
     Object.keys(months)[currMonth]
   );
+
+  const [selectedDay, setSelectedDay] = useState(now.getDate());
 
   const [selectedYear, setSelectedYear] = useState(now.getFullYear());
 
@@ -81,6 +84,16 @@ export default function Calendar({ completeData, demo }) {
 
   const daystoDisplay = firstDayofMonth + daysInMonth;
   const numRows = Math.floor(daystoDisplay / 7) + (daystoDisplay % 7 ? 1 : 0);
+
+  const handleClick = (dayIndex) => {
+    const dayInfo = {
+      day: dayIndex,
+      month: monthsArr.indexOf(selectedMonth),
+      year: selectedYear,
+    };
+
+    localStorage.setItem("selectedDayInfo", JSON.stringify(dayInfo)); // Save the selected day to localStorage
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -129,7 +142,9 @@ export default function Calendar({ completeData, demo }) {
                   //Main box
                   <Link href={"/journal"}>
                     <div
+                      key={dayIndex}
                       style={{ background: color }}
+                      onClick={() => handleClick(dayIndex)}
                       className={
                         " text-xs sm:text-sm border border-solid p-4 flex items-center rounded-lg justify-between gap-2 " +
                         (isToday
