@@ -34,7 +34,6 @@ const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 export default function Calendar({ completeData, demo }) {
   console.log(completeData);
- 
 
   console.log("this is inside calendar prop", completeData);
 
@@ -99,7 +98,7 @@ export default function Calendar({ completeData, demo }) {
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-3 gap-4 my-4">
         <button className=" mr-auto" onClick={() => handleIncrementMonth(-1)}>
-          <i className="fa-solid fa-circle-chevron-left"></i>
+          <i className="fa-solid fa-circle-chevron-left text-sky-700"></i>
         </button>
         <p
           className={
@@ -109,7 +108,7 @@ export default function Calendar({ completeData, demo }) {
           {selectedMonth},{selectedYear}
         </p>
         <button className=" ml-auto" onClick={() => handleIncrementMonth(1)}>
-          <i className="fa-solid fa-circle-chevron-right"></i>
+          <i className="fa-solid fa-circle-chevron-right text-sky-700 "></i>
         </button>
       </div>
       <div className="flex flex-col overflow-hidden gap-1 py-4 sm:py-6 md:py-10">
