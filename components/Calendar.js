@@ -135,7 +135,7 @@ export default function Calendar({ completeData, demo }) {
                   ? gradients.blue[baseRating[dayIndex]]
                   : dayIndex in data
                   ? gradients.blue[data[dayIndex].value]
-                  : "white";
+                  : "white"; 
 
                 return (
                   //Main box
